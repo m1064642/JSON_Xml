@@ -87,17 +87,21 @@ public class JsonFileData {
 
 					while (itrAu.hasNext()) {
 						JSONObject obj2 = (JSONObject) itrAu.next();
+						
+						//author element
+						Element author = doc.createElement("author");
+						authors.appendChild(author);
 			
 		         
 		         //author id element
 		         Element authorId = doc.createElement("id");
 		         authorId.appendChild(doc.createTextNode((String) obj2.get("id")));
-		         authors.appendChild(authorId);
+		         author.appendChild(authorId);
 		         
 		         //author id element
 		         Element authorName = doc.createElement("name");
 		         authorName.appendChild(doc.createTextNode((String) obj2.get("name")));
-		         authors.appendChild(authorName);
+		         author.appendChild(authorName);
 		         
 					}
 		         }
