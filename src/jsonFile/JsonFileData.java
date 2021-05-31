@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -48,6 +52,7 @@ public class JsonFileData {
 		         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		         Document doc = dBuilder.newDocument();
+		         
 		         
 		         // root element
 		         Element rootElement = doc.createElement("books");
@@ -126,7 +131,7 @@ public class JsonFileData {
 		
 		JSONObject obj1 = null;
 	
-		// parsing file "JSONExample.json"
+		// parsing file "books.json"
 		Object obj = new JSONParser().parse(new FileReader("books.json"));
 		DatabaseService service = new DatabaseService();
 		
@@ -137,6 +142,7 @@ public class JsonFileData {
 		
 		// typecasting obj to JSONObject
 		JSONArray jo = (JSONArray) obj;//urlObj;
+	
 		Iterator itr1 = jo.iterator();
 
 		while(itr1.hasNext()) {
@@ -145,11 +151,17 @@ public class JsonFileData {
 
 			//get the the name of keys
 			Set<String> keys =  obj1.keySet();
-			SortedSet<String> sorted = new TreeSet<String>(keys);
+			List<String> sortList = new ArrayList<String>(keys);
+			Collections.sort(sortList);
+			System.out.println("Sorted list:- " + sortList);
+			TreeSet<String> sorted = new TreeSet<String>(new StringComp());
 			Iterator<String> k =keys.iterator();
 			while(k.hasNext()) {
-				System.out.print(k.next() + " ");
+				//System.out.print(k.next() + " ");
+				sorted.add(k.next());
 			}
+			
+			System.out.println("Sorted sets:- " + sorted);
 			
 			JSONArray authors = (JSONArray) obj1.get("authors");
 		
@@ -210,4 +222,13 @@ public class JsonFileData {
         return null;
     }
 	
+}
+
+class StringComp implements Comparator<String> {
+
+	@Override
+	public int compare(String o1, String o2) {
+
+		return o1.compareTo(o2);
+	}
 }
